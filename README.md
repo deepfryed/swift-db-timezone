@@ -11,11 +11,12 @@ Uses the well tested TZInfo gem for time zone support and offers implicit time z
 ```ruby
 require 'swift/db/timezone'
 
-class MyAdapter < Swift::DB::Mysql
+class Connection < Swift::DB::Mysql
   include Swift::DB::Timezone
 end
 
-db = MyAdapter.new(db: 'test', database_timezone: 'America/Chicago', local_timezone: 'Europe/Prague')
+db = Connection.new(db: 'test', database_timezone: 'Asia/Omsk', local_timezone: 'Europe/Prague')
+
 db.execute('select now() as time')
 ```
 
