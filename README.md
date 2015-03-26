@@ -16,9 +16,14 @@ class Connection < Swift::DB::Mysql
   include Swift::DB::Timezone
 end
 
-db = Connection.new(db: 'test', database_timezone: 'Asia/Omsk', local_timezone: 'Europe/Rome')
-
+zone = {database_timezone: 'Asia/Omsk', local_timezone: 'Europe/Rome'}
+db   = Connection.new(db: 'test', zone)
 db.execute('select now() as time')
+
+
+# extending results on a per query basis.
+db     = Swift::DB::Mysql.new(db: 'test')
+result = Swift::DB::Timezone::Result.wrap db.execute('select now() as time'), zone
 ```
 
 ## Performance

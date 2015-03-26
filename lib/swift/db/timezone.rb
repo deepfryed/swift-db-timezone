@@ -43,6 +43,17 @@ module Swift
             yield tuple
           end
         end
+
+        def self.wrap result, options = {}
+          options  = options.dup
+          db_tz    = options.fetch(:database_timezone, 'UTC')
+          local_tz = options.fetch(:local_timezone,    'UTC')
+
+          options.delete(:database_timezone)
+          options.delete(:local_timezone)
+
+          Swift::DB::Timezone::Result.new result, Swift::DB::Timezone::Convert.new(db_tz, local_tz)
+        end
       end # Result
 
       def initialize options = {}
